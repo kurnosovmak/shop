@@ -162,11 +162,12 @@ export default {
             } else {
 
             }
-            this.getProducts();
+
         }
     },
     mounted() {
-        this.getBasketByIdProduct();
+        // this.getBasketByIdProduct();
+        this.getProducts();
         this.getCategories();
 
     }

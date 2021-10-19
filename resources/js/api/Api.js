@@ -5,10 +5,10 @@ export default () => {
     baseURL: `/api/`
   })
 
-  // const token = localStorage.getItem('token')
-  // if (token) {
-  //   axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`
-  // }
+  const token = localStorage.getItem('token')
+  if (token) {
+    axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`
+  }
 
       axiosInstance.defaults.headers.common.Accept = `application/json`
 

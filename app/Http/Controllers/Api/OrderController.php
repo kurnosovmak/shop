@@ -48,7 +48,7 @@ class OrderController extends Controller
             return response([
                 'status'=>'-1',
                 'message'=>'basket is clear',
-            ],301);
+            ],200);
         }
 
         foreach ($basketsItems as $item) {

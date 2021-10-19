@@ -6,22 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Basket;
 use App\Models\BasketItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
     public function index()
     {
-        $basket = Basket::latest()->first();
-        if ($basket == null) {
-            $basket = new Basket();
-            $basket->save();
-        }
+        $basket = Auth::user()->basket();
 
         $products = [];
-        foreach ($basket->basketsItems as $product){
+        foreach ($basket->basketsItems as $product) {
             $products[] = [
-                'count'=>$product->count,
-                'product'=>$product->product
+                'count' => $product->count,
+                'product' => $product->product
             ];
         }
 
@@ -39,18 +36,15 @@ class BasketController extends Controller
             'product_id' => 'integer|min:0|exists:products,id|required',
             'count' => 'integer|required',
         ]);
-        $basket = Basket::latest()->first();
-        if ($basket == null) {
-            $basket = new Basket();
-            $basket->save();
-        }
+        $basket = Auth::user()->basket();
+
         $basketItem = $basket->basketsItems->where('product_id', '=', $input['product_id'])->first();
 
-        if ($basketItem!= null) {
+        if ($basketItem != null) {
             $basketItem->count += $input['count'];
             if ($basketItem->count <= 0) {
                 $basketItem->delete();
-            }else{
+            } else {
                 $basketItem->save();
             }
         } else if ($input['count'] > 0) {
@@ -63,7 +57,7 @@ class BasketController extends Controller
             return response([
                 'status' => '-1',
                 'message' => 'error count',
-                ], 301);
+            ], 200);
         }
         return response(
             [
@@ -75,8 +69,9 @@ class BasketController extends Controller
 
     public function destroy()
     {
-        $basket = Basket::latest()->first();
-        if($basket != null){
+        $basket = Auth::user()->basket();
+
+        if ($basket != null) {
             $basket->basketsItems()->delete();
         }
         return response(
@@ -86,21 +81,20 @@ class BasketController extends Controller
             , 200);
     }
 
-    public function store(Request $request)
-    {
-        $inputs = $request->validate([
-            'basket_id' => 'integer|min:1|exists:baskets,id|required',
-            'contact' => 'string|required',
-        ]);
-
-        $Basket = new Basket();
-        $Basket->contact = $inputs['contact'];
-        $Basket->save();
-
-        $basket = Basket::find($inputs['basket_id']);
-
-        return $basket->basketsItems;
-
-    }
+//    public function store(Request $request)
+//    {
+//        $inputs = $request->validate([
+//            'basket_id' => 'integer|min:1|exists:baskets,id|required',
+//            'contact' => 'string|required',
+//        ]);
+//
+//        $basket = Auth::user() ?
+//            Auth::user()->basket() :
+//            Basket::create([]);
+//
+//
+//        return $basket->basketsItems;
+//
+//    }
 
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <flash-message transitionIn="animated swing" class="myCustomClass"></flash-message>
+
         <center>
             <div style="width: 600px;">
                 <table class="table">
@@ -136,15 +136,7 @@ export default {
 </script>
 
 <style >
-.myCustomClass{
-    /*max-width: 300px;*/
-    display: block;
-    padding-top: 20px;
-    padding-right: 20px;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
+
 
 .pre-image{
     width: 50px;

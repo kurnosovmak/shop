@@ -19,10 +19,21 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+            .myCustomClass{
+                /*max-width: 300px;*/
+                display: block;
+                padding-top: 20px;
+                padding-right: 20px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 10;
+            }
         </style>
     </head>
     <body >
         <div id="app">
+            <flash-message transitionIn="animated swing" class="myCustomClass"></flash-message>
             <nav-bar-component></nav-bar-component>
             <router-view></router-view>
         </div>

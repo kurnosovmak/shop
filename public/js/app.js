@@ -109,6 +109,10 @@ var routes = [{
     "default": function _default() {
       return __webpack_require__.e(/*! import() | ProductsView */ "ProductsView").then(__webpack_require__.bind(__webpack_require__, /*! ../views/ProductsView.vue */ "./resources/js/views/ProductsView.vue"));
     }
+  },
+  meta: {
+    requiresAuth: false,
+    requiresVisitor: false
   }
 }, {
   path: '/product/:id',
@@ -117,6 +121,10 @@ var routes = [{
     "default": function _default() {
       return __webpack_require__.e(/*! import() | ProductView */ "ProductView").then(__webpack_require__.bind(__webpack_require__, /*! ../views/ProductView.vue */ "./resources/js/views/ProductView.vue"));
     }
+  },
+  meta: {
+    requiresAuth: false,
+    requiresVisitor: false
   }
 }, {
   path: '/basket',
@@ -125,6 +133,34 @@ var routes = [{
     "default": function _default() {
       return __webpack_require__.e(/*! import() | BasketView */ "BasketView").then(__webpack_require__.bind(__webpack_require__, /*! ../views/BasketView.vue */ "./resources/js/views/BasketView.vue"));
     }
+  },
+  meta: {
+    requiresAuth: true,
+    requiresVisitor: false
+  }
+}, {
+  path: '/login',
+  name: 'Login',
+  components: {
+    "default": function _default() {
+      return __webpack_require__.e(/*! import() | LoginView */ "LoginView").then(__webpack_require__.bind(__webpack_require__, /*! ../views/LoginView.vue */ "./resources/js/views/LoginView.vue"));
+    }
+  },
+  meta: {
+    requiresAuth: false,
+    requiresVisitor: true
+  }
+}, {
+  path: '/register',
+  name: 'Register',
+  components: {
+    "default": function _default() {
+      return __webpack_require__.e(/*! import() | RegisterView */ "RegisterView").then(__webpack_require__.bind(__webpack_require__, /*! ../views/RegisterView.vue */ "./resources/js/views/RegisterView.vue"));
+    }
+  },
+  meta: {
+    requiresAuth: false,
+    requiresVisitor: true
   }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
@@ -133,16 +169,19 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
 });
 router.beforeEach(function (to, from, next) {
-  // const loggedIn = localStorage.getItem('user')
-  // if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
-  //   next('/')
-  // } else if (
-  //   to.matched.some((record) => record.meta.requiresVisitor) &&
-  //   loggedIn
-  // ) {
-  //   next('/')
-  // } else {
-  next(); // }
+  var loggedIn = localStorage.getItem('token');
+
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  }) && !loggedIn) {
+    next('/');
+  } else if (to.matched.some(function (record) {
+    return record.meta.requiresVisitor;
+  }) && loggedIn) {
+    next('/');
+  } else {
+    next();
+  }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -16391,7 +16430,7 @@ Vue.compile = compileToFunctions;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"ProductsView":1,"ProductView":1,"BasketView":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"ProductsView":1,"ProductView":1,"BasketView":1,"LoginView":1,"RegisterView":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

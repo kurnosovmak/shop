@@ -2315,10 +2315,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function () {
   var axiosInstance = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
     baseURL: "/api/"
-  }); // const token = localStorage.getItem('token')
-  // if (token) {
-  //   axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`
-  // }
+  });
+  var token = localStorage.getItem('token');
+
+  if (token) {
+    axiosInstance.defaults.headers.common.Authorization = "Bearer ".concat(token);
+  }
 
   axiosInstance.defaults.headers.common.Accept = "application/json";
   axiosInstance.interceptors.response.use(function (response) {
